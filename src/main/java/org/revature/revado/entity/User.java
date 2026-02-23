@@ -6,25 +6,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor // <--- REQUIRED by JPA
-@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @Column(columnDefinition = "TEXT")
+    private String id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private UUID id;
+
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
 
     @Column(unique = true, nullable = false)
     private String username;
 
     @Column(nullable = false)
     private String password;
-
 
     // One User has a list of many TodoItems.
     // "mappedBy" tells the DB: "Go look at the 'user' field in TodoItem to figure out who owns these."

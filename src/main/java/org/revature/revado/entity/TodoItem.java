@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,14 +14,18 @@ import java.util.UUID;
 @Table(name = "todo_items")
 public class TodoItem {
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private UUID id;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @Column(columnDefinition = "TEXT")
+    private String id;
 
     @Column(nullable = false)
     private String title;
 
-    private boolean isCompleted;
+    private boolean Completed;
 
     // Many TodoItems belong to One User.
     // @JoinColumn creates a column in this table called "user_id" that links back to the User.

@@ -58,3 +58,61 @@
 * `description` (String)
 * `isCompleted` (Boolean)
 * `todo_item_id` (Foreign Key referencing TodoItems.id)
+
+***
+***
+## Application Startup Flow
+*Application Starts*
+↓
+
+*RevaDoApplication (main method)*
+↓
+
+*Spring Boot Bootstraps Application*
+↓
+
+*Component Scan (org.revature.revado)*
+↓
+
+*Spring Creates Beans:*
+- Controllers
+- Services
+- Repositories
+- Entities (JPA mapping)
+↓
+
+*Embedded Server Starts (Tomcat)*
+↓
+
+*Application Ready to Accept HTTP Requests*
+
+
+***
+***
+
+## Application Flow
+*Client Sends HTTP Request*
+↓
+
+*Controller (receives DTO)*
+↓
+
+*Service (converts DTO → Entity)*
+↓
+
+*Repository (saves Entity)*
+↓
+
+*Database*
+↓
+
+*Repository returns Entity*
+↓
+
+*Service converts Entity → DTO*
+↓
+
+*Controller returns DTO*
+↓
+
+*Client Receives Response*
