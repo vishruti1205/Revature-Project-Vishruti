@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor // <--- REQUIRED by JPA
+@NoArgsConstructor
 @Table(name = "todo_items")
 public class TodoItem {
 
@@ -33,7 +33,7 @@ public class TodoItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // One TodoItem can have a list of many Subtasks (e.g., "Buy Milk", "Buy Eggs")
+    // One TodoItem can have a list of many Subtasks
     @OneToMany(mappedBy = "todoItem", cascade = CascadeType.ALL)
     private List<SubtaskItem> subtasks;
 

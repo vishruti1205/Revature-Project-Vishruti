@@ -9,7 +9,6 @@ import org.revature.revado.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,7 @@ public class TodoItemService {
         this.userRepository = userRepository;
     }
 
-    // ================= CREATE TODO =================
-    // Create a new todo linked to logged-in user.
+    // CREATE TODO- Create a new todo linked to logged-in user.
     public TodoItemResponseDTO createTodo(TodoItemCreateDTO dto) {
 
         // Username comes from JWT via SecurityContext
@@ -49,8 +47,7 @@ public class TodoItemService {
         return toResponseDTO(saved);
     }
 
-    // ================= GET TODOS =================
-    // Returns only todos belonging to logged-in user.
+    // GET TODOS- Returns only todos belonging to logged-in user.
     public List<TodoItemResponseDTO> getMyTodos() {
 
         User user = getLoggedInUser();
@@ -61,8 +58,7 @@ public class TodoItemService {
                 .collect(Collectors.toList());
     }
 
-    // ================= UPDATE COMPLETED =================
-    // Mark todo complete/incomplete (only owner allowed)
+    // UPDATE COMPLETED- Mark todo complete/incomplete (only owner allowed)
     public TodoItemResponseDTO updateCompleted(String todoId, boolean completed) {
 
         User user = getLoggedInUser();
@@ -82,7 +78,7 @@ public class TodoItemService {
         return toResponseDTO(saved);
     }
 
-    // ================= DELETE TODO =================
+    // DELETE TODO
     public void deleteTodo(String todoId) {
 
         User user = getLoggedInUser();
@@ -97,8 +93,7 @@ public class TodoItemService {
         todoItemRepo.delete(todo);
     }
 
-    // ================= HELPER: GET USER FROM JWT =================
-    // JwtAuthFilter already validated token and stored username in SecurityContext.
+    // GET USER FROM JWT- JwtAuthFilter already validated token and stored username in SecurityContext.
     private User getLoggedInUser() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -109,7 +104,7 @@ public class TodoItemService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    // ================= HELPER: ENTITY → DTO =================
+    //  this method convert entity to DTO
     private TodoItemResponseDTO toResponseDTO(TodoItem todo) {
 
         TodoItemResponseDTO dto = new TodoItemResponseDTO();

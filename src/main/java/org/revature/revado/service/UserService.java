@@ -19,15 +19,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder; // for hashing + matching
     private final JwtUtil jwtUtil;
 
-
-
     @Autowired
     public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
-
-
     }
 
     // 1. Logic for Register Button
@@ -76,7 +72,6 @@ public class UserService {
     private UserResponseDTO convertEntityToDto(User savedUser) {
 
         // this method convert entity to DTO
-
         UserResponseDTO userResponseDTO = new UserResponseDTO();
 
         userResponseDTO.setId(savedUser.getId());

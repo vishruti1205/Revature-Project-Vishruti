@@ -5,27 +5,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
+@Table(name = "subtask_items")
 @Getter
 @Setter
-@NoArgsConstructor // <--- REQUIRED by JPA
-@Table(name = "subtask_items")
+@NoArgsConstructor
 public class SubtaskItem {
 
+    // Primary key stored as TEXT (UUID string)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @Column(columnDefinition = "TEXT")
+    private String id;
 
-    private String description;
+    // Title of the subtask
+    @Column(nullable = false)
+    private String title;
 
-    private boolean isCompleted;
+    // Track completion status
+    @Column(nullable = false)
+    private boolean completed = false;
 
-    // Many Subtasks belong to One TodoItem.
-    // This creates a "todo_item_id" column in the database to link them.
+    // Many subtasks belong to ONE TodoItem
     @ManyToOne
-    @JoinColumn(name = "todo_item_id")
+    @JoinColumn(name = "todo_id", nullable = false)
     private TodoItem todoItem;
-
 }
