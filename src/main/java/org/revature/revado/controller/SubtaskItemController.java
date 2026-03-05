@@ -2,6 +2,7 @@ package org.revature.revado.controller;
 
 import org.revature.revado.dto.SubtaskCreateDTO;
 import org.revature.revado.dto.SubtaskResponseDTO;
+import org.revature.revado.dto.SubtaskUpdateDTO;
 import org.revature.revado.service.SubtaskItemService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -32,6 +33,13 @@ public class SubtaskItemController {
     public SubtaskResponseDTO updateCompleted(@PathVariable String id,
                                               @RequestParam boolean value) {
         return subtaskService.updateCompleted(id, value);
+    }
+
+    // PUT /api/subtasks/{id}- Edit subtask title
+    @PutMapping("/{id}")
+    public SubtaskResponseDTO updateSubtask(@PathVariable String id,
+                                            @RequestBody SubtaskUpdateDTO dto) {
+        return subtaskService.updateSubtask(id, dto);
     }
 
     // DELETE /api/subtasks/{id}- Delete subtask

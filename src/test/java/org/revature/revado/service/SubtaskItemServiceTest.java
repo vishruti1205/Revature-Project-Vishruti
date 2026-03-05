@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.revature.revado.dto.SubtaskCreateDTO;
 import org.revature.revado.dto.SubtaskResponseDTO;
+import org.revature.revado.dto.SubtaskUpdateDTO;
 import org.revature.revado.entity.SubtaskItem;
 import org.revature.revado.entity.TodoItem;
 import org.revature.revado.entity.User;
@@ -164,6 +165,42 @@ class SubtaskItemServiceTest {
 
         // Assert: updated subtask should be complete.
         assertTrue(result.isCompleted());
+        verify(subtaskRepo).save(subtask);
+    }
+
+    // Tests updating the title of a subtask owned by the logged-in user.
+    @Test
+    void updateSubtask_shouldUpdateTitleWhenOwnerMatches() {
+        // Arrange: fake logged-in user.
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken("vishruti", null)
+        );
+
+        User user = new User();
+        user.setId("user-1");
+        user.setUsername("vishruti");
+
+        TodoItem todo = new TodoItem();
+        todo.setId("todo-1");
+        todo.setUser(user);
+
+        SubtaskItem subtask = new SubtaskItem();
+        subtask.setId("subtask-1");
+        subtask.setTitle("Old title");
+        subtask.setTodoItem(todo);
+
+        SubtaskUpdateDTO dto = new SubtaskUpdateDTO();
+        dto.setTitle("New title");
+
+        when(userRepository.findByUsername("vishruti")).thenReturn(Optional.of(user));
+        when(subtaskRepo.findById("subtask-1")).thenReturn(Optional.of(subtask));
+        when(subtaskRepo.save(any(SubtaskItem.class))).thenReturn(subtask);
+
+        // Act: update subtask title.
+        SubtaskResponseDTO result = subtaskItemService.updateSubtask("subtask-1", dto);
+
+        // Assert: title should be updated.
+        assertEquals("New title", result.getTitle());
         verify(subtaskRepo).save(subtask);
     }
 

@@ -2,6 +2,7 @@ package org.revature.revado.service;
 
 import org.revature.revado.dto.SubtaskCreateDTO;
 import org.revature.revado.dto.SubtaskResponseDTO;
+import org.revature.revado.dto.SubtaskUpdateDTO;
 import org.revature.revado.entity.SubtaskItem;
 import org.revature.revado.entity.TodoItem;
 import org.revature.revado.entity.User;
@@ -107,6 +108,28 @@ public class SubtaskItemService {
         subtask.setCompleted(completed);
 
         // Save updated subtask
+        SubtaskItem saved = subtaskRepo.save(subtask);
+
+        return toResponseDTO(saved);
+    }
+
+    // EDIT SUBTASK TITLE
+    public SubtaskResponseDTO updateSubtask(String subtaskId, SubtaskUpdateDTO dto) {
+
+        // Get logged-in user
+        User user = getLoggedInUser();
+
+        // Find subtask
+        SubtaskItem subtask = subtaskRepo.findById(subtaskId)
+                .orElseThrow(() -> new RuntimeException("Subtask not found"));
+
+        // SECURITY CHECK:Only owner of parent Todo can update
+        if (!subtask.getTodoItem().getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Not allowed to update this subtask");
+        }
+
+        subtask.setTitle(dto.getTitle());
+
         SubtaskItem saved = subtaskRepo.save(subtask);
 
         return toResponseDTO(saved);

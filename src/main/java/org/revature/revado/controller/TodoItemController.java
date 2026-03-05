@@ -36,6 +36,13 @@ public class TodoItemController {
         return todoItemService.updateCompleted(id, value);
     }
 
+    // PUT /api/todos/{id}
+    @PutMapping("/{id}")
+    public TodoItemResponseDTO updateTodo(@PathVariable String id,
+                                          @RequestBody TodoItemCreateDTO dto) {
+        return todoItemService.updateTodo(id, dto);
+    }
+
     // DELETE /api/todos/{id}
     @DeleteMapping("/{id}")
     public String delete(@PathVariable String id) {

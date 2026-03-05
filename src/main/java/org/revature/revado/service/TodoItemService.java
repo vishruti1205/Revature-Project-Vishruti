@@ -78,6 +78,25 @@ public class TodoItemService {
         return toResponseDTO(saved);
     }
 
+    // EDIT TODO- Update todo title (only owner allowed)
+    public TodoItemResponseDTO updateTodo(String todoId, TodoItemCreateDTO dto) {
+
+        User user = getLoggedInUser();
+
+        TodoItem todo = todoItemRepo.findById(todoId)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+
+        if (!todo.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Not allowed to update this todo");
+        }
+
+        todo.setTitle(dto.getTitle());
+
+        TodoItem saved = todoItemRepo.save(todo);
+
+        return toResponseDTO(saved);
+    }
+
     // DELETE TODO
     public void deleteTodo(String todoId) {
 
